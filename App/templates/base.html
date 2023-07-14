@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Favicon -->
+    <link href={% static "img/favicon.ico" %} rel="shortcut icon">
+    <!-- Logo -->
+    <link href={% static "img/logo.ico" %} rel="shortcut icon">
+    <!-- Static CSS -->
+    <link href={% static "css/style.css" %} rel="stylesheet">
+    <title>{% block title %} home {% endblock %}</title>
+</head>
+<body>
+    {% block style %} <style></style>{% endblock style %}
+  <div class="wrapper">
+      <!-- Navbar -->
+      <header>
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2" style="border-bottom: 2px solid yellow;">
+              <!-- FontAwesome + Title (Left side) -->
+              <div class="col-sm">
+                  <a href="#" class="navbar-brand flex-grow-1 text-center" style="margin-left: 25px;">
+                      {% block nav-content %}
+                      <i class="fa-solid fa-bank text-success"></i>&nbsp;&nbsp; AnaTexeira
+                      {% endblock %}
+                  </a>
+              </div>
+              <!-- Links with Icons (Right side) -->
+              <div class="col-sm ml-auto">
+                  <ul class="navbar-nav">
+                      {% block nav-links %}
+             <!-- Button (Right side) -->
+              <div class="col-sm" style="margin-left: 700px;">
+                  {% block nav-btn_out %}
+                  <a href="{% url 'login' %}" class="btn btn-outline-danger btn-light btn-sm text-secondary" id="btn-nav"><i class="fas fa-power-off"></i>&nbsp;***</a>
+                  {% endblock %}
+              </div>
+            {% endblock %}
+                  </ul>
+              </div>
+
+          </nav>
+      </header>
+
+      <!-- ===== Block Content (ROOT) ===== -->
+      {% block content %} {% endblock content %}
+
+
+    </div> <!-- End // wrapper -->
+
+
+
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Static JS -->
+    <script src={% static "js/script.js" %}></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var productCard = document.getElementById('product-card');
+          var productListContainer = document.getElementById('product-list-container');
+
+          productCard.addEventListener('click', function() {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', '/get_products/', true);  // Substitua a URL '/get_products/' pela URL correta da sua view
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      var products = JSON.parse(xhr.responseText);
+                      renderProducts(products);
+                  }
+              };
+              xhr.send();
+          });
+
+          function renderProducts(products) {
+              productListContainer.innerHTML = ''; // Limpa o conteúdo anterior, se houver
+
+              var table = document.createElement('table');
+              table.classList.add('table');
+
+              var thead = document.createElement('thead');
+              var tr = document.createElement('tr');
+              var thId = document.createElement('th');
+              thId.textContent = 'ID';
+              var thProduto = document.createElement('th');
+              thProduto.textContent = 'Produto';
+
+              tr.appendChild(thId);
+              tr.appendChild(thProduto);
+              thead.appendChild(tr);
+              table.appendChild(thead);
+
+              var tbody = document.createElement('tbody');
+              products.forEach(function(product) {
+                  var tr = document.createElement('tr');
+                  var tdId = document.createElement('td');
+                  tdId.textContent = product.id;
+                  var tdProduto = document.createElement('td');
+                  tdProduto.textContent = product.produto;
+
+                  tr.appendChild(tdId);
+                  tr.appendChild(tdProduto);
+                  tbody.appendChild(tr);
+              });
+              table.appendChild(tbody);
+
+              productListContainer.appendChild(table);
+          }
+      });
+      </script>
+
+
+</body>
+</html>

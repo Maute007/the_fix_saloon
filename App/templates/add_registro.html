@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+<!-- Page Conteudo -->
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-body mt-5 {% block card-color %} border-dark text-light bg-secondary {% endblock card-color %}">
+                <span class="text-center">{% block card-title1 %}<strong> Adicionar Registros </strong> {% endblock card-title1 %}</span>
+            </div>
+
+            <!--form-->
+            <form {% block action1 %} action="/add_registro" {% endblock action1 %} method="POST" enctype="multipart/form-data" autocomplete="off" class="card p-3 border-dark mt-3">
+                {% csrf_token %}
+
+                <!--block ID (negado)-->
+                {% block value_id %}{% endblock value_id %}
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary "><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="nome" maxlength="70" placeholder="Nome do cliente" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="telefone" maxlength="12" placeholder="Número do telefone" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="Tipo_De_trabalho" maxlength="200" placeholder="Insira o tipo de trabalho" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="quantidade" maxlength="4" placeholder="Nr de peças registradas" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <input type="text" class="form-control text-success" name="valor_trabalho" maxlength="9" placeholder="Insira o valor de trabalho" required>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="side-label btn btn-secondary "><i class="fas fa-tshirt"></i></span>&nbsp;
+                    <textarea class="form-control text-danger" name="assunto" maxlength="300" placeholder="Insira descricao dos produtos" required></textarea>
+                </div>
+
+                <div class="mt-4" style="width: 100%">
+                    <button type="submit" class="btn btn-success mb-3">
+                        {% block btn-action %}<i class="fas fa-plus"></i>&nbsp;&nbsp; Adicionar {% endblock btn-action %}
+                    </button>
+                    <a href={% url 'index' %} class="btn btn-warning mb-3 ms-2" style="width: 50px;" title="Ver Produtos">
+                        <i class="fas fa-list"></i>
+                    </a>
+                    <button type="reset" class="btn btn-danger mb-3 ms-2" style="width: 50px;" title="Resetar">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
