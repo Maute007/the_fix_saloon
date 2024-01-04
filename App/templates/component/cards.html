@@ -1,0 +1,62 @@
+ <!--username-->
+ <div style="margin-top: 2px">
+    <table class="table table-sm">
+        <thead class="table-secondary">
+            <tr>
+                <th style="width: 98%; text-align: center">***  <i class="fas fa-user-plus"></i> <stong class="text-dark ">User:</strong>
+                     <span class="text-danger ">{{user.get_username}}</span> ***<th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<!--<h2 style="text-align: center;">CONTROL DE PRODUTOS</h2>
+==========-->
+<div class="container text-center w-size timer_over mt-2 mb-2">
+    <div class="row mt-4 gx-2">
+        <!--Dias-->
+        <div class="col-xl-3 col-sm-3 col-3 p-1">
+          <div class="card border-0">
+              <button class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                  <span class="f-size1" id="h">Total Entradas</span><br>
+                  <span class="f-size2">{{total_products}}</span>
+                  <br>
+              </button>
+          </div>
+      </div>
+
+        
+        <!--horas-->
+        <div class="col-xl-3 col-sm-3 col-3 p-1">
+          <div class="card border-0">
+              <button class="btn btn-warning btn-lg"  data-bs-toggle="modal" data-bs-target="#staticBackdr">
+                  <span class="f-size1" id="m">Trabalhos Pendentes</span><br>
+                  <span class="f-size2">{{ total_pendentes }}</span><br>
+              </button>
+          </div>
+      </div>
+
+      
+
+        <!--minutos-->
+        <div class="col-xl-3 col-sm-3 col-3 p-1">
+            <div class="card border-0">
+                <button class="btn btn-success btn-lg"  data-bs-toggle="modal" data-bs-target="#staticBackdr">
+                    <span class="f-size1" id="m">Trabalhos Finalizados</span><br>
+                    <span class="f-size2">{{total_concluidos}}</span><br>
+                </button>
+            </div>
+        </div>
+
+      
+
+        <!--segundos-->
+        <div class="col-xl-3 col-sm-3 col-3 p-1">
+            <div class="card border-0">
+                <button class="btn btn-danger btn-lg">
+                    <span class="f-size1 fa-beat-fade" id="s"> Total Saidas </span><br>
+                    <span class="f-size2">{{total_entregues}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div> <!--END //container-->

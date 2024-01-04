@@ -2,11 +2,19 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.cache import cache_control
 from .models import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
+def logout_and_show_login(request):
+    logout(request)
+    return redirect('login')
 
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -22,7 +30,7 @@ def login_view(request):
             if user.groups.filter(name='Admin').exists():
                 return redirect('admin:index')
             elif user.groups.filter(name='gestor').exists():
-                return redirect('index')
+                return redirect('add_registro')
             else:
                 return redirect('add_registro')
 
@@ -35,6 +43,8 @@ def login_view(request):
 
 
 # Frontend
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def index(request):
     products = Product.objects.all().order_by('-data_de_criacao')
     total_products = products.count()
@@ -50,16 +60,16 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
+@login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_registro(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
         telefone = request.POST.get('telefone')
-        Tipo_De_trabalho = request.POST.get('Tipo_De_trabalho')
+        tipo_de_trabalho = request.POST.get('tipo_de_trabalho')
         quantidade = request.POST.get('quantidade')
         valor_trabalho = request.POST.get('valor_trabalho')
-        valor_pago = request.POST.get('valor_pago')
+        #valor_pago = request.POST.get('valor_pago')
         assunto = request.POST.get('assunto')
         metodo_de_pagamento = request.POST.get('metodo_de_pagamento')
         data_de_criacao = request.POST.get('data_de_criacao')
@@ -67,14 +77,14 @@ def add_registro(request):
         product = Product.objects.create(
             nome=nome,
             telefone=telefone,
-            Tipo_De_trabalho=Tipo_De_trabalho,
+            tipo_de_trabalho=tipo_de_trabalho,
             quantidade=quantidade,
             valor_trabalho=valor_trabalho,
             assunto=assunto,
-            valor_pago=valor_pago,
+          #  valor_pago=valor_pago,
             metodo_de_pagamento=metodo_de_pagamento,
             data_de_criacao=data_de_criacao,
-            status='Pendente'  # Set the default status to 'Pendente'
+            status='Concluído' 
         )
 
         return redirect('add_registro')
@@ -82,7 +92,8 @@ def add_registro(request):
     return render(request, 'add_registro.html')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def view_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -91,7 +102,8 @@ def view_product(request, product_id):
         return HttpResponseRedirect('/o')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def edit_product(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
@@ -125,14 +137,16 @@ def edit_product(request, product_id):
 
 
 # delete_product
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def delete_product(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return redirect('/o')
 
 # lista dos produtos
+@login_required(login_url='login')
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def get_products(request):
     products = Product.objects.all().values()  # Obtém todos os produtos como um dicionário de valores
     return JsonResponse(list(products), safe=False)

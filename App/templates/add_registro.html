@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block nav-links %}
+    <div class="col-sm ms-auto">
+        {% block nav-btn_out %}
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm text-light" id="btn-nav" title="Sair">
+                <i class="fa fa-power-off fa-lg text-light"></i>
+            </a>
+        {% endblock %}
+    </div>
+{% endblock nav-links %}
+
+
 <!-- Page Conteudo -->
 {% block content %}
 <div class="container">
@@ -17,40 +28,66 @@
                 {% block value_id %}{% endblock value_id %}
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary "><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <input type="text" class="form-control" name="nome" maxlength="70" placeholder="Nome do cliente" required>
+                    <span class="side-label btn btn-secondary "><i class="fas fa-user"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="nome" maxlength="70" placeholder="Nome do cliente" >
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <input type="text" class="form-control" name="telefone" maxlength="12" placeholder="Número do telefone" required>
+                    <span class="side-label btn btn-secondary"><i class="fas fa-phone"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="telefone" maxlength="12" placeholder="Número do telefone">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <input type="text" class="form-control" name="Tipo_De_trabalho" maxlength="200" placeholder="Insira o tipo de trabalho" required>
+                    <span class="side-label btn btn-secondary"><i class="fas fa-tools"></i></span>&nbsp;
+                    <input type="text" class="form-control" name="tipo_de_trabalho" maxlength="200" placeholder="Insira o tipo de trabalho" required>
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <input type="text" class="form-control" name="quantidade" maxlength="4" placeholder="Nr de peças registradas" required>
+                    <span class="side-label btn btn-secondary"><i class="fas fa-sort-numeric-up"></i></span>&nbsp;
+                    <input type="number" class="form-control" name="quantidade" maxlength="4" placeholder="Quantidade" required style="color:red">
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary"><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <input type="text" class="form-control text-success" name="valor_trabalho" maxlength="9" placeholder="Insira o valor de trabalho" required>
-                </div>
+
+                    <div class="input-group mb-3">
+                        <span class="side-label btn btn-secondary"><i class="fas fa-dollar-sign"></i></span>&nbsp;
+                        <input type="number" class="form-control text-success" name="valor_trabalho" maxlength="9" placeholder="Insira o valor de trabalho" required>
+                    </div>
+
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="metodo_de_pagamento">Método de Pagamento</label>
+                    </div>
+                    <select class="custom-select" id="metodo_de_pagamento" name="metodo_de_pagamento" required>
+                        <option selected>Escolha...</option>
+                        <option value="mpesa">M-Pesa</option>
+                        <option value="emola">Emola</option>
+                        <option value="numerario">Numerário</option>
+                    </select>
+                    
+                    <!-- Campo "Proporção" como um menu suspenso 
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="proporcao">Proporção do pagamento</label>
+                    </div>
+                    <select class="custom-select" id="proporcao" name="proporcao">
+                        <option value="0"></option>
+                        <option value="25">25%</option>
+                        <option value="50">50%</option>
+                        <option value="75">75%</option>
+                        <option value="100">100%</option>
+                    </select>
+                </div>-->
+                
 
                 <div class="input-group mb-3">
-                    <span class="side-label btn btn-secondary "><i class="fas fa-tshirt"></i></span>&nbsp;
-                    <textarea class="form-control text-danger" name="assunto" maxlength="300" placeholder="Insira descricao dos produtos" required></textarea>
+                    <span class="side-label btn btn-secondary "><i class="fas fa-align-left"></i></span>&nbsp;
+                    <textarea class="form-control text-danger" name="assunto" maxlength="600" placeholder="Insira descrição do trabalho" required></textarea>
                 </div>
 
                 <div class="mt-4" style="width: 100%">
                     <button type="submit" class="btn btn-success mb-3">
                         {% block btn-action %}<i class="fas fa-plus"></i>&nbsp;&nbsp; Adicionar {% endblock btn-action %}
                     </button>
-                    <a href={% url 'index' %} class="btn btn-warning mb-3 ms-2" style="width: 50px;" title="Ver Produtos">
+                    <a href={% url 'admin:index' %} class="btn btn-warning mb-3 ms-2" style="width: 50px;" title="Ver Produtos">
                         <i class="fas fa-list"></i>
                     </a>
                     <button type="reset" class="btn btn-danger mb-3 ms-2" style="width: 50px;" title="Resetar">
@@ -61,5 +98,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock content %}

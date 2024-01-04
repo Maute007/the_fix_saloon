@@ -28,6 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGOUT_REDIRECT_URL = '/login/'  # Substitua pelo seu URL de login
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 0
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
+
 # Application definition
 
 INSTALLED_APPS = [
